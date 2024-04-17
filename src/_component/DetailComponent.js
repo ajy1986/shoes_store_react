@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import { Tabs, Tab, Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { addCart } from "../redux";
@@ -10,10 +10,13 @@ const DetailComponent = () => {
   let dispatch = useDispatch();
 
   let list = useSelector((state)=>{
-    return state.productList;
+    return state.productDtl;
   });
   let dtlData = [];
-  let {id} = useParams();
+  //let {id} = useParams();
+  let [searchParams, setSearchParams] = useSearchParams();
+  let id = searchParams.get("id");
+
 
   if (list.length>0){
     list.forEach(e => {

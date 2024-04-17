@@ -2,6 +2,7 @@ import { configureStore, createSlice } from "@reduxjs/toolkit";
 import productTmpData from "./_data/productTmpData";
 import productCartTmpData from "./_data/productCartTmpData";
 import productList from "./_store/productStore";
+import productDtl from "./_store/productDtlStore";
 import productCartList from "./_store/productCartStore";
 
 
@@ -15,6 +16,7 @@ export let { updateCartList, updateCartCount, addCart, deleteCart } =
 export default configureStore({
   reducer: {
     productList: productList.reducer,
-    productCartList : productCartList.reducer
+    productCartList: productCartList.reducer,
+    productDtl: productDtl.reducer,
   },
 });

@@ -54,7 +54,7 @@ const MainComponent = () => {
             {list &&
               list.map((list, index) => (
                 <Col key={index} xs={12} md={4}>
-                  <a href={`/detail/${list.id}`}>
+                  <a href={`/detail?id=${list.id}`}>
                     <Image
                       src={`/image/shoes${index + 1}.jpg`}
                       width="80%"

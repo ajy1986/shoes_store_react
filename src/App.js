@@ -47,8 +47,6 @@ function App() {
             </Nav>
           </Container>
         </Navbar>
-        {/* <div className="main-bg" /> */}
-
         <Routes>
           <Route
             path="*"
@@ -85,7 +83,7 @@ function App() {
             }
           />
           <Route
-            path="/detail/:id"
+            path="/detail"
             element={
               <>
                 <DetailComponent />
@@ -109,7 +107,11 @@ function App() {
             {sessionData && sessionData.length > 0
               ? sessionData.map((it, index) => (
                   <>
-                    <Card border="success" style={{ width: "20rem" }}>
+                    <Card
+                      border="success"
+                      style={{ width: "20rem" }}
+                      key={index}
+                    >
                       <Card.Header>{it.title}</Card.Header>
                       <Card.Body>
                         <Card.Text>
