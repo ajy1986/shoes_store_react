@@ -5,8 +5,8 @@ import {
   Nav,
   Row,
   Col,
-  Card,
-  ListGroup,
+  ButtonGroup,
+  Image,
 } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -48,15 +48,18 @@ const MainComponent = () => {
 
   return (
     <>
-      <div className="main-bg"/>
       <div>
         <Container className="mt-3">
           <Row>
             {list &&
               list.map((list, index) => (
-                <Col key={index}>
+                <Col key={index} xs={12} md={4}>
                   <a href={`/detail/${list.id}`}>
-                    <img src={`/image/shoes${index + 1}.jpg`} width="80%" />
+                    <Image
+                      src={`/image/shoes${index + 1}.jpg`}
+                      width="80%"
+                      fluid
+                    />
                   </a>
                   <h4>{list.title}</h4>
                   <p>{list.price}</p>
@@ -64,9 +67,11 @@ const MainComponent = () => {
               ))}
           </Row>
           {isAddBtn ? (
-            <Button variant="outline-info" onClick={getData}>
-              더보기
-            </Button>
+            <div class="d-flex justify-content-center md-3">
+              <Button variant="outline-info" onClick={getData}>
+                더보기
+              </Button>
+            </div>
           ) : null}
         </Container>
       </div>
