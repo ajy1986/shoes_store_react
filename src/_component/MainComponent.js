@@ -12,12 +12,14 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { productListAdd } from "../redux";
+import { useNavigate } from "react-router-dom";
 
 let addCnt = 1;
 
 const MainComponent = () => {
 
 
+  let navigate = useNavigate();
   let dispatch = useDispatch();
 
   let productList = useSelector((state) => {
@@ -46,6 +48,8 @@ const MainComponent = () => {
   };
 
 
+
+
   return (
     <>
       <div>
@@ -54,7 +58,10 @@ const MainComponent = () => {
             {list &&
               list.map((list, index) => (
                 <Col key={index} xs={12} md={4}>
-                  <a href={`/detail?id=${list.id}`}>
+                  {/* <a href={`/detail?id=${list.id}`}> */}
+                  <a href="#" onClick={()=>{
+                    navigate(`/detail?id=${list.id}`);
+                  }}>
                     <Image
                       src={`/image/shoes${index + 1}.jpg`}
                       width="80%"
