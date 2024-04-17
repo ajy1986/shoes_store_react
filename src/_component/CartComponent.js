@@ -24,7 +24,7 @@ const CartComponent = () => {
           <tbody>
             {typeof list === "undefined" || list.length === 0 ? (
               <tr>
-                <td colSpan={4}>장바구니에 담긴 상품이 없습니다.</td>
+                <td colSpan={4}>상품이 없습니다.</td>
               </tr>
             ) : (
               list.map((it, index) => (
