@@ -18,6 +18,12 @@
   background-position: center;
 }
 
+.order_txt {
+  font-size : 25px;
+  font-weight: 500;
+  color: red;
+}
+
 
 .App {
   text-align: center;

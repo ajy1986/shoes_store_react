@@ -8,10 +8,13 @@ import {
   Offcanvas,
   Card,
   Carousel,
+  Image,
 } from "react-bootstrap";
 import MainComponent from "./_component/MainComponent";
 import DetailComponent from "./_component/DetailComponent";
 import CartComponent from "./_component/CartComponent";
+import OrderComponent from "./_component/OrderComponent";
+import CompleteComponent from "./_component/CompleteComponent";
 import {Routes, Route, Link, useNavigate, Outlet} from 'react-router-dom';
 import { useState } from "react";
 
@@ -28,7 +31,7 @@ function App() {
 
   return (
     <>
-      <Container fluid="md">
+      <Container fluid="md" className="mt-3">
         <Navbar bg="light" data-bs-theme="light">
           <Container>
             <Navbar.Brand href="/">Shoe Store(feat.React)</Navbar.Brand>
@@ -64,7 +67,6 @@ function App() {
                   <Carousel.Item>
                     <div className="main-bg" />
                     <Carousel.Caption>
-                      <h3>First slide label</h3>
                       <p>
                         Nulla vitae elit libero, a pharetra augue mollis
                         interdum.
@@ -98,6 +100,22 @@ function App() {
               </>
             }
           />
+          <Route
+            path="/order"
+            element={
+              <>
+                <OrderComponent />
+              </>
+            }
+          />
+          <Route
+            path="/complete"
+            element={
+              <>
+                <CompleteComponent />
+              </>
+            }
+          />
         </Routes>
         <Offcanvas show={show} onHide={handleClose}>
           <Offcanvas.Header closeButton>
@@ -115,11 +133,14 @@ function App() {
                       <Card.Header>{it.title}</Card.Header>
                       <Card.Body>
                         <Card.Text>
-                          <a href={`/detail/${it.id}`}>
-                            <img
-                              src={`/image/shoes${Number(it.id) + 1}.jpg`}
-                              width="60%"
-                            />
+                          <a
+                            href="javascript:"
+                            onClick={() => {
+                              handleClose(false);
+                              navigate(`/detail?seq=${it.seq}`);
+                            }}
+                          >
+                            <Image src={`/image/${it.fileName}`} width="60%" />
                           </a>
                         </Card.Text>
                       </Card.Body>
