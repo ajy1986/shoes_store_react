@@ -8,6 +8,7 @@ import {
   Form,
   InputGroup,
   Card,
+  Image,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { addCart, orderAdd } from "../redux";
@@ -70,7 +71,7 @@ const DetailComponent = () => {
           <Container className="mt-3">
             <div className="row">
               <div className="col-md-6">
-                <img src={`/image/${dtlData.fileName}`} width="80%" />
+                <Image src={`/image/${dtlData.fileName}`} width="80%" />
               </div>
               <div className="col-md-6">
                 <h4 className="pt-5">{dtlData.title}</h4>
@@ -130,7 +131,7 @@ const DetailComponent = () => {
                       dispatch(
                         addCart({
                           cartSeq: productCartList.length + 1,
-                          fileName : dtlData.fileName,
+                          fileName: dtlData.fileName,
                           productSeq: dtlData.seq,
                           title: dtlData.title,
                           count: prdtCnt,
@@ -212,6 +213,7 @@ const DetailComponent = () => {
                         <ListGroup.Item
                           as="li"
                           className="d-flex justify-content-between align-items-start"
+                          key={index}
                         >
                           <div className="ms-2 me-auto">
                             <div className="fw-bold">{list.title}</div>

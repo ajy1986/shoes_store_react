@@ -21,6 +21,7 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import {setOrder} from '../redux';
+import DaumPostcode from "react-daum-postcode";
 
 const OrderComponent = () => {
   let orderChk = true;
@@ -51,6 +52,7 @@ const OrderComponent = () => {
     name: "",
     hp: "",
     addr: "",
+    addrDtl : "",
     ordrPrice: totalOrderPrice,
     usePoint: "0",
     totalPoint: 300000,
@@ -124,6 +126,21 @@ const OrderComponent = () => {
     setValidated(true);
   };
 
+  //주소찾기
+  const [isAddrPost, setIsAddrPost] = useState(false);
+  //주소 선택
+  const setAddress = (data) => {
+    console.log(data);
+    let strAddr = `[${data.zonecode}] ${data.address} ${
+      data.buildingName ? '('+data.buildingName+')' : null
+    }`;
+    setOrderInfo({
+      ...ordrInfo,
+      addr: strAddr,
+    });
+    setIsAddrPost(false);
+  }
+
   return (
     <>
       {!orderChk ? (
@@ -144,7 +161,7 @@ const OrderComponent = () => {
           <div className="d-grid gap-2 mt-3">
             <Button
               type="button"
-              variant="primary"
+              variant="danger"
               size="lg"
               onClick={() => {
                 navigate("/");
@@ -244,12 +261,40 @@ const OrderComponent = () => {
                         placeholder="주소를 입력 해 주세요."
                         name="addr"
                         value={ordrInfo.addr}
-                        onChange={writeFormChangeFnc}
                         maxLength={50}
                         required
+                        onClick={() => {
+                          setOrderInfo({
+                            ...ordrInfo,
+                            addr: "",
+                            addrDtl: "",
+                          });
+                          setIsAddrPost(true);
+                        }}
                       />
                       <Form.Control.Feedback type="invalid">
                         주소를 입력 해 주세요.
+                      </Form.Control.Feedback>
+                      {isAddrPost ? (
+                        <div className="mt-3">
+                          <DaumPostcode
+                            onComplete={setAddress}
+                            autoClose={false} // 값을 선택할 경우 사용되는 DOM을 제거하여 자동 닫힘 설정
+                          />
+                        </div>
+                      ) : null}
+                      <Form.Control
+                        type="text"
+                        className="mt-3"
+                        placeholder="상세 주소를 입력 해 주세요."
+                        name="addrDtl"
+                        value={ordrInfo.addrDtl}
+                        onChange={writeFormChangeFnc}
+                        maxLength={100}
+                        required
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        상세 주소를 입력 해 주세요.
                       </Form.Control.Feedback>
                     </Form.Group>
                   </Row>

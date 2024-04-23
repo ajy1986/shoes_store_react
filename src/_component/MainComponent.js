@@ -43,8 +43,7 @@ const MainComponent = () => {
             {prdtList &&
               prdtList.map((list, index) => (
                 <Card className="mt-3" key={index}>
-                  <a
-                    href="javascript:"
+                  <Nav.Link
                     onClick={() => {
                       navigate(`/detail?seq=${list.seq}`);
                     }}
@@ -52,7 +51,7 @@ const MainComponent = () => {
                     <div style={{ width: "250px", margin: "auto" }}>
                       <Card.Img variant="top" src={`/image/${list.fileName}`} />
                     </div>
-                  </a>
+                  </Nav.Link>
                   <Card.Body style={{ margin: "auto" }}>
                     <Card.Title>{list.title}</Card.Title>
                     <Card.Text>
@@ -67,17 +66,23 @@ const MainComponent = () => {
           </Row>
           <br />
           {isAddBtn ? (
-            <div class="d-flex justify-content-center md-3">
-              <Button variant="outline-info" onClick={()=>{
-                addCnt++;
-                setPrdtList((prdtList) => [
-                  ...prdtList,
-                  ...productList.filter((tmp) => tmp.page === addCnt),
-                ]);
-                if (productList.filter((tmp) => tmp.page === addCnt + 1).length ===0) {
-                  setIsAddBtn(false);
-                }
-              }}>
+            <div className="d-flex justify-content-center md-3">
+              <Button
+                variant="outline-info"
+                onClick={() => {
+                  addCnt++;
+                  setPrdtList((prdtList) => [
+                    ...prdtList,
+                    ...productList.filter((tmp) => tmp.page === addCnt),
+                  ]);
+                  if (
+                    productList.filter((tmp) => tmp.page === addCnt + 1)
+                      .length === 0
+                  ) {
+                    setIsAddBtn(false);
+                  }
+                }}
+              >
                 더보기
               </Button>
             </div>

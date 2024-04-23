@@ -133,15 +133,14 @@ function App() {
                       <Card.Header>{it.title}</Card.Header>
                       <Card.Body>
                         <Card.Text>
-                          <a
-                            href="javascript:"
+                          <Nav.Link
                             onClick={() => {
                               handleClose(false);
                               navigate(`/detail?seq=${it.seq}`);
                             }}
                           >
                             <Image src={`/image/${it.fileName}`} width="60%" />
-                          </a>
+                          </Nav.Link>
                         </Card.Text>
                       </Card.Body>
                     </Card>

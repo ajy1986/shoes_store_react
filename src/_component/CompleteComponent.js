@@ -20,8 +20,6 @@ const CompleteComponent = () => {
     orderProductArr = orderInfo.orderProductArr;
   }
 
-  console.log(order);
-
     return (
       <>
         {order.length === 0 ? (
@@ -42,7 +40,7 @@ const CompleteComponent = () => {
             <div className="d-grid gap-2 mt-3">
               <Button
                 type="button"
-                variant="primary"
+                variant="danger"
                 size="lg"
                 onClick={() => {
                   navigate("/");
@@ -85,7 +83,7 @@ const CompleteComponent = () => {
                     주소 :{" "}
                     <cite title="Source Title">
                       <span style={{ fontWeight: "700" }}>
-                        {orderInfo.addr}
+                        {orderInfo.addr} {orderInfo.addrDtl}
                       </span>
                     </cite>
                   </footer>
