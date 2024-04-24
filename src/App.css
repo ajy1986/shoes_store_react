@@ -24,6 +24,14 @@
   color: red;
 }
 
+.bg {
+  background-color: #f8f9fa;
+}
+
+
+.textBold {
+  font-weight: bold;
+}
 
 .App {
   text-align: center;

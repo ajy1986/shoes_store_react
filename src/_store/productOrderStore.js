@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import addrTempData from "../_data/addrTempData";
+
 
 
 //주문상품 state
@@ -27,4 +29,11 @@ let order = createSlice({
   },
 });
 
-export { productOrder, order };
+
+//주소 state
+let addrState = createSlice({
+  name: "addrState",
+  initialState: addrTempData,
+});
+
+export { productOrder, order, addrState };

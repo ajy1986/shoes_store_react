@@ -11,26 +11,26 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 
-let orderArr = [];
-
 const CartComponent = () => {
-
   let navigate = useNavigate();
   let dispatch = useDispatch();
   let productCartList = useSelector((state) => state.productCartList);
 
   let list = productCartList;
 
+  //선택체크박스
+  const [checkItems, setCheckItems] = useState([]);
+
   //선택 주문
   const setArrOrder = () => {
-    if (orderArr.length === 0) {
+    if (checkItems.length === 0) {
       alert("주문하실 상품을 선택 해 주세요.");
     } else {
       let cartOrderList = [];
       let ordrProductList = [];
 
       ordrProductList = list.filter((tmp) =>
-        orderArr.includes(tmp.productSeq.toString())
+        checkItems.includes(tmp.productSeq)
       );
       ordrProductList.forEach((e) => {
         let tmpObj = {
@@ -44,20 +44,31 @@ const CartComponent = () => {
         cartOrderList.push(tmpObj);
       });
       dispatch(orderAdd(cartOrderList));
-      orderArr = [];
+      setCheckItems([]);
       navigate("../order");
     }
-  }
+  };
 
-  //체크박스 이벤트
-  const checkedFnc = (e) => {
-    if (e.target.checked){
-      orderArr.push(e.target.value);
-    }else{
-      let filtered = orderArr.filter((val) => val !== e.target.value);
-      orderArr = filtered;
+
+  // 체크박스 단일 선택
+  const handleSingleCheck = (checked, productSeq) => {
+    if (checked) {
+      setCheckItems((prev) => [...prev, productSeq]);
+    } else {
+      setCheckItems(checkItems.filter((el) => el !== productSeq));
     }
-  }
+  };
+
+  //전체선택 이벤트
+  const handleAllCheck = (checked) => {
+    if (checked) {
+      const idArray = [];
+      list.forEach((el) => idArray.push(el.productSeq));
+      setCheckItems(idArray);
+    } else {
+      setCheckItems([]);
+    }
+  };
 
   return (
     <>
@@ -65,7 +76,13 @@ const CartComponent = () => {
         <Table striped bordered hover size="sm">
           <thead>
             <tr>
-              <th>선택</th>
+              <th>
+                {" "}
+                <Form.Check
+                  onChange={(e) => handleAllCheck(e.target.checked)}
+                  checked={checkItems.length === list.length ? true : false}
+                />
+              </th>
               <th>상품명</th>
               <th>주문수량</th>
               <th></th>
@@ -87,9 +104,12 @@ const CartComponent = () => {
                     <Form.Group className="mb-3">
                       <Form.Check
                         name="productSeq"
-                        onChange={checkedFnc}
-                        value={it.productSeq}
-                        count={it.count}
+                        onChange={(e) =>
+                          handleSingleCheck(e.target.checked, it.productSeq)
+                        }
+                        checked={
+                          checkItems.includes(it.productSeq) ? true : false
+                        }
                       />
                     </Form.Group>
                   </td>
@@ -147,7 +167,7 @@ const CartComponent = () => {
         </Table>
         <div>
           <Button variant="success" size="sm" onClick={setArrOrder}>
-            선택 주문하기
+            선택 주문
           </Button>
         </div>
       </Container>

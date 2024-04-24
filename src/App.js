@@ -19,6 +19,7 @@ import {Routes, Route, Link, useNavigate, Outlet} from 'react-router-dom';
 import { useState } from "react";
 
 
+
 function App() {
 
   let navigate = useNavigate();
@@ -31,19 +32,19 @@ function App() {
 
   return (
     <>
-      <Container fluid="md" className="mt-3">
+      <Container fluid="md" className="mt-3 bg">
         <Navbar bg="light" data-bs-theme="light">
           <Container>
-            <Navbar.Brand href="/">Shoe Store(feat.React)</Navbar.Brand>
+            <Navbar.Brand href="/" className='textBold'>Shoe Store(feat.React)</Navbar.Brand>
           </Container>
         </Navbar>
         <Navbar bg="light" data-bs-theme="light">
           <Container>
             <Nav className="me-auto">
-              <Nav.Link onClick={() => navigate("/")}>Home</Nav.Link>
-              <Nav.Link onClick={() => navigate("/cart")}>Cart</Nav.Link>
-              <Nav.Link onClick={handleShow}>
-                <Button variant="outline-warning" size="sm">
+              <Nav.Link  className='textBold' onClick={() => navigate("/")}>Home</Nav.Link>
+              <Nav.Link  className='textBold' onClick={() => navigate("/cart")}>Cart</Nav.Link>
+              <Nav.Link  className='textBold' onClick={handleShow}>
+                <Button variant="outline-warning" size="sm" className='textBold'>
                   Recent Products
                 </Button>
               </Nav.Link>

@@ -12,6 +12,8 @@ import {
   Navbar,
   Button,
   Alert,
+  Modal,
+  Table,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -28,8 +30,15 @@ const OrderComponent = () => {
   let navigate = useNavigate();
   let dispatch = useDispatch();
   let [searchParams, setSearchParams] = useSearchParams();
-  let seq = searchParams.get("seq");
   let totalOrderPrice = 0;
+
+  const [addrModalShow, setModalShow] = useState(false);
+
+  //주소정보
+    let addrArr = useSelector((state) => {
+      return state.addrState;
+    });
+
 
   //주문상품정보
   let orderProductArr = useSelector((state) => {
@@ -130,14 +139,27 @@ const OrderComponent = () => {
   const [isAddrPost, setIsAddrPost] = useState(false);
   //주소 선택
   const setAddress = (data) => {
-    console.log(data);
     let strAddr = `[${data.zonecode}] ${data.address} ${
-      data.buildingName ? '('+data.buildingName+')' : null
+      data.buildingName!=='' ? '('+data.buildingName+')' : ''
     }`;
     setOrderInfo({
       ...ordrInfo,
       addr: strAddr,
     });
+    setIsAddrPost(false);
+  }
+
+  //배송지 조회 선택
+  const setAddrModal = (addrNo) => {
+    let setAddr = addrArr.filter((data)=>{
+      return data.addrNo === addrNo;
+    });
+    setOrderInfo({
+      ...ordrInfo,
+      addr: `[${setAddr[0].zonecode}] ${setAddr[0].address}`,
+      addrDtl : setAddr[0].addressDtl,
+    });
+    setModalShow(false);
     setIsAddrPost(false);
   }
 
@@ -255,7 +277,17 @@ const OrderComponent = () => {
                       controlId="validationFormik03"
                       className="mt-3"
                     >
-                      <Form.Label>주소</Form.Label>
+                      <Form.Label>
+                        주소&nbsp;
+                        <Button
+                          type="button"
+                          variant="outline-info"
+                          size="sm"
+                          onClick={() => setModalShow(true)}
+                        >
+                          배송지 조회
+                        </Button>
+                      </Form.Label>
                       <Form.Control
                         type="text"
                         placeholder="주소를 입력 해 주세요."
@@ -378,20 +410,76 @@ const OrderComponent = () => {
             </Row>
 
             <div className="d-grid gap-2 mt-3">
-              <Button
-                type="submit"
-                variant="primary"
-                size="lg"
-                //disabled={isSubmitting}
-              >
+              <Button type="submit" variant="primary" size="lg">
                 결제하기
               </Button>
             </div>
           </Container>
           <div className="mt-3"></div>
+          <MyVerticallyCenteredModal
+            show={addrModalShow}
+            onHide={() => setModalShow(false)}
+            addrArr={addrArr}
+            setAddrModal={setAddrModal}
+          />
         </Form>
       )}
     </>
+  );
+}
+
+//배송지 조회 컴포넌트
+function MyVerticallyCenteredModal(props) {
+
+  const [addrNo, setAddrNo] = useState('');
+
+  return (
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          배송지 조회
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Table striped bordered hover>
+          <thead></thead>
+          <tbody>
+            {props.addrArr && props.addrArr.length === 0 ? (
+              <tr>
+                <td colSpan={2}>저장된 주소가 없습니다.</td>
+              </tr>
+            ) : (
+              props.addrArr.map((list, index) => (
+                <tr key={index}>
+                  <td>
+                    <Form.Check type="radio" name="addr" id={`default-radio`} value={list.addrNo} onClick={(e)=> setAddrNo(e.target.value)}/>
+                  </td>
+                  <td>
+                    [{list.name}] ({list.zonecode}) {list.address}
+                    {list.addressDtl}
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </Table>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="success" onClick={()=>{
+          if(addrNo===""){
+            alert('배송지를 선택해 주세요.');
+            return false;
+          }
+          props.setAddrModal(addrNo);
+        }}>선택</Button>
+        <Button onClick={props.onHide}>닫기</Button>
+      </Modal.Footer>
+    </Modal>
   );
 }
 
