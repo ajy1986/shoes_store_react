@@ -202,7 +202,7 @@ const OrderComponent = () => {
               <Card.Body>
                 {orderProductArr &&
                   orderProductArr.map((it, index) => (
-                    <div className="mt-3">
+                    <div className="mt-3" key={index}>
                       <Card.Title>
                         <Image
                           src={`/image/${it.productFileName}`}
@@ -227,171 +227,173 @@ const OrderComponent = () => {
             <Card className="mt-3">
               <Card.Header as="h5">주문정보</Card.Header>
               <Card.Body>
-                <Card.Text>
-                  <Row>
-                    <Form.Group
-                      as={Col}
-                      md="3"
-                      controlId="validationFormik01"
-                      className="mt-3"
-                    >
-                      <Form.Label>이름</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="이름을 입력 해 주세요."
-                        name="name"
-                        value={ordrInfo.name}
-                        onChange={writeFormChangeFnc}
-                        maxLength={30}
-                        required
-                      />
-                      <Form.Control.Feedback type="invalid">
-                        이름을 입력 해 주세요.
-                      </Form.Control.Feedback>
-                    </Form.Group>
+                <Row>
+                  <Form.Group
+                    as={Col}
+                    md="3"
+                    controlId="validationFormik01"
+                    className="mt-3"
+                  >
+                    <Form.Label>이름</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="이름을 입력 해 주세요."
+                      name="name"
+                      defaultValue={ordrInfo.name}
+                      onChange={writeFormChangeFnc}
+                      maxLength={30}
+                      required
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      이름을 입력 해 주세요.
+                    </Form.Control.Feedback>
+                  </Form.Group>
 
-                    <Form.Group
-                      as={Col}
-                      md="3"
-                      controlId="validationFormik02"
-                      className="mt-3"
-                    >
-                      <Form.Label>휴대전화</Form.Label>
-                      <Form.Control
-                        required
-                        type="number"
-                        placeholder="휴대전화를 입력 해 주세요."
-                        name="hp"
-                        value={ordrInfo.hp}
-                        onChange={writeFormChangeFnc}
-                        maxLength={15}
-                      />
-                      <Form.Control.Feedback type="invalid">
-                        휴대전화를 입력 해 주세요.
-                      </Form.Control.Feedback>
-                    </Form.Group>
+                  <Form.Group
+                    as={Col}
+                    md="3"
+                    controlId="validationFormik02"
+                    className="mt-3"
+                  >
+                    <Form.Label>휴대전화</Form.Label>
+                    <Form.Control
+                      required
+                      type="number"
+                      placeholder="숫자만 입력 해 주세요."
+                      name="hp"
+                      defaultValue={ordrInfo.hp}
+                      onChange={writeFormChangeFnc}
+                      maxLength={15}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      휴대전화를 입력 해 주세요.
+                    </Form.Control.Feedback>
+                  </Form.Group>
 
-                    <Form.Group
-                      as={Col}
-                      md="3"
-                      controlId="validationFormik03"
+                  <Form.Group
+                    as={Col}
+                    md="3"
+                    controlId="validationFormik03"
+                    className="mt-3"
+                  >
+                    <Form.Label>
+                      주소&nbsp;
+                      <Button
+                        type="button"
+                        variant="outline-info"
+                        size="sm"
+                        onClick={() => setModalShow(true)}
+                      >
+                        배송지 조회
+                      </Button>
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="주소를 입력 해 주세요."
+                      name="addr"
+                      maxLength={50}
+                      value={ordrInfo.addr}
+                      onChange={() => {
+                        setOrderInfo({
+                          ...ordrInfo,
+                          addr: "",
+                        });
+                      }}
+                      required
+                      onFocus={() => {
+                        setOrderInfo({
+                          ...ordrInfo,
+                          addr: "",
+                          addrDtl: "",
+                        });
+                        setIsAddrPost(true);
+                      }}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      주소를 입력 해 주세요.
+                    </Form.Control.Feedback>
+                    {isAddrPost ? (
+                      <div className="mt-3">
+                        <DaumPostcode
+                          onComplete={setAddress}
+                          autoClose={false} // 값을 선택할 경우 사용되는 DOM을 제거하여 자동 닫힘 설정
+                        />
+                      </div>
+                    ) : null}
+                    <Form.Control
+                      type="text"
                       className="mt-3"
-                    >
-                      <Form.Label>
-                        주소&nbsp;
-                        <Button
-                          type="button"
-                          variant="outline-info"
-                          size="sm"
-                          onClick={() => setModalShow(true)}
-                        >
-                          배송지 조회
-                        </Button>
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="주소를 입력 해 주세요."
-                        name="addr"
-                        value={ordrInfo.addr}
-                        maxLength={50}
-                        required
-                        onClick={() => {
-                          setOrderInfo({
-                            ...ordrInfo,
-                            addr: "",
-                            addrDtl: "",
-                          });
-                          setIsAddrPost(true);
-                        }}
-                      />
-                      <Form.Control.Feedback type="invalid">
-                        주소를 입력 해 주세요.
-                      </Form.Control.Feedback>
-                      {isAddrPost ? (
-                        <div className="mt-3">
-                          <DaumPostcode
-                            onComplete={setAddress}
-                            autoClose={false} // 값을 선택할 경우 사용되는 DOM을 제거하여 자동 닫힘 설정
-                          />
-                        </div>
-                      ) : null}
-                      <Form.Control
-                        type="text"
-                        className="mt-3"
-                        placeholder="상세 주소를 입력 해 주세요."
-                        name="addrDtl"
-                        value={ordrInfo.addrDtl}
-                        onChange={writeFormChangeFnc}
-                        maxLength={100}
-                        required
-                      />
-                      <Form.Control.Feedback type="invalid">
-                        상세 주소를 입력 해 주세요.
-                      </Form.Control.Feedback>
-                    </Form.Group>
-                  </Row>
-                </Card.Text>
+                      placeholder="상세 주소를 입력 해 주세요."
+                      name="addrDtl"
+                      defaultValue={ordrInfo.addrDtl}
+                      onChange={writeFormChangeFnc}
+                      maxLength={100}
+                      required
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      상세 주소를 입력 해 주세요.
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                </Row>
               </Card.Body>
             </Card>
 
             <Card className="mt-3">
               <Card.Header as="h5">포인트</Card.Header>
               <Card.Body>
-                <Card.Text>
-                  <Row>
-                    <Navbar className="bg-body-tertiary">
-                      <Container>
-                        <Navbar.Brand style={{ fontSize: "15px" }}>
-                          보유 포인트
-                        </Navbar.Brand>
-                        <Navbar.Toggle />
-                        <Navbar.Collapse className="justify-content-end">
-                          <Navbar.Text>
-                            <span style={{ fontWeight: "700" }}>
-                              {ordrInfo.totalPoint} P
-                            </span>
-                          </Navbar.Text>
-                        </Navbar.Collapse>
-                      </Container>
-                    </Navbar>
-                    <InputGroup className="mb-3">
-                      <Form.Control
-                        type="number"
-                        placeholder="사용"
-                        name="usePoint"
-                        value={ordrInfo.usePoint}
-                        onChange={writeFormChangeFnc}
-                        onBlur={usePointFnc}
-                      />
-                      <InputGroup.Text id="basic-addon2">
-                        <Button
-                          type="button"
-                          variant="warning"
-                          size="sm"
-                          onClick={() => {
-                            let uPoint = ordrInfo.usePoint;
-                            let oPrice = ordrInfo.ordrPrice;
-                            let tPoint = 300000; //정보를 받아오지 못해 하드코딩
+                <Row>
+                  <Navbar className="bg-body-tertiary">
+                    <Container>
+                      <Navbar.Brand style={{ fontSize: "15px" }}>
+                        보유 포인트
+                      </Navbar.Brand>
+                      <Navbar.Toggle />
+                      <Navbar.Collapse className="justify-content-end">
+                        <Navbar.Text>
+                          <span style={{ fontWeight: "700" }}>
+                            {ordrInfo.totalPoint} P
+                          </span>
+                        </Navbar.Text>
+                      </Navbar.Collapse>
+                    </Container>
+                  </Navbar>
+                  <InputGroup className="mb-3">
+                    <Form.Control
+                      type="number"
+                      placeholder="사용"
+                      name="usePoint"
+                      value={ordrInfo.usePoint}
+                      onChange={writeFormChangeFnc}
+                      onBlur={usePointFnc}
+                    />
+                    <InputGroup.Text id="basic-addon2">
+                      <Button
+                        type="button"
+                        variant="warning"
+                        size="sm"
+                        onClick={() => {
+                          let uPoint = ordrInfo.usePoint;
+                          let oPrice = ordrInfo.ordrPrice;
+                          let tPoint = 300000; //정보를 받아오지 못해 하드코딩
 
-                            if (tPoint > oPrice) {
-                              uPoint = oPrice;
-                            } else {
-                              uPoint = tPoint;
-                            }
-                            setOrderInfo({
-                              ...ordrInfo,
-                              ordrPrice: oPrice - uPoint,
-                              usePoint: uPoint,
-                              totalPoint: tPoint - uPoint,
-                            });
-                          }}
-                        >
-                          전액사용
-                        </Button>
-                      </InputGroup.Text>
-                    </InputGroup>
-                  </Row>
-                </Card.Text>
+                          if (tPoint > oPrice) {
+                            uPoint = oPrice;
+                          } else {
+                            uPoint = tPoint;
+                          }
+                          setOrderInfo({
+                            ...ordrInfo,
+                            ordrPrice: oPrice - uPoint,
+                            usePoint: uPoint,
+                            totalPoint: tPoint - uPoint,
+                          });
+                        }}
+                      >
+                        전액사용
+                      </Button>
+                    </InputGroup.Text>
+                  </InputGroup>
+                </Row>
               </Card.Body>
             </Card>
 
@@ -419,7 +421,7 @@ const OrderComponent = () => {
           <MyVerticallyCenteredModal
             show={addrModalShow}
             onHide={() => setModalShow(false)}
-            addrArr={addrArr}
+            listaddr={addrArr}
             setAddrModal={setAddrModal}
           />
         </Form>
@@ -435,7 +437,7 @@ function MyVerticallyCenteredModal(props) {
 
   return (
     <Modal
-      {...props}
+      show={props.show}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
@@ -449,15 +451,21 @@ function MyVerticallyCenteredModal(props) {
         <Table striped bordered hover>
           <thead></thead>
           <tbody>
-            {props.addrArr && props.addrArr.length === 0 ? (
+            {props.listaddr && props.listaddr.length === 0 ? (
               <tr>
                 <td colSpan={2}>저장된 주소가 없습니다.</td>
               </tr>
             ) : (
-              props.addrArr.map((list, index) => (
+              props.listaddr.map((list, index) => (
                 <tr key={index}>
                   <td>
-                    <Form.Check type="radio" name="addr" id={`default-radio`} value={list.addrNo} onClick={(e)=> setAddrNo(e.target.value)}/>
+                    <Form.Check
+                      type="radio"
+                      name="addr"
+                      id={`default-radio`}
+                      value={list.addrNo}
+                      onClick={(e) => setAddrNo(e.target.value)}
+                    />
                   </td>
                   <td>
                     [{list.name}] ({list.zonecode}) {list.address}
@@ -470,13 +478,18 @@ function MyVerticallyCenteredModal(props) {
         </Table>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="success" onClick={()=>{
-          if(addrNo===""){
-            alert('배송지를 선택해 주세요.');
-            return false;
-          }
-          props.setAddrModal(addrNo);
-        }}>선택</Button>
+        <Button
+          variant="success"
+          onClick={() => {
+            if (addrNo === "") {
+              alert("배송지를 선택해 주세요.");
+              return false;
+            }
+            props.setAddrModal(addrNo);
+          }}
+        >
+          선택
+        </Button>
         <Button onClick={props.onHide}>닫기</Button>
       </Modal.Footer>
     </Modal>

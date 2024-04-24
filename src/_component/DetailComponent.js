@@ -66,7 +66,9 @@ const DetailComponent = () => {
     return (
       <>
         {dtlData && dtlData.length === 0 ? (
-          <p>찾는 상품이 없습니다.</p>
+          <div>
+            <p>찾는 상품이 없습니다.</p>
+          </div>
         ) : (
           <Container className="mt-3">
             <div className="row">
@@ -75,7 +77,7 @@ const DetailComponent = () => {
               </div>
               <div className="col-md-6">
                 <h4 className="pt-5">{dtlData.title}</h4>
-                <p>
+                <div>
                   <InputGroup className="mb-3">
                     <InputGroup.Text id="basic-addon3">
                       <span style={{ fontWeight: "700", color: "red" }}>
@@ -118,8 +120,8 @@ const DetailComponent = () => {
                       -
                     </InputGroup.Text>
                   </InputGroup>
-                </p>
-                <p>
+                </div>
+                <p className="mt-3">
                   <button
                     size="sm"
                     className="btn btn-info"

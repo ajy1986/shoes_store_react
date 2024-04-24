@@ -90,30 +90,28 @@ const CompleteComponent = () => {
                   <footer className="blockquote-footer mt-3">상품정보</footer>
                   <Card border="primary" className="mt-3">
                     <Card.Body>
-                      <Card.Text>
-                        {orderProductArr &&
-                          orderProductArr.map((it, index) => (
-                            <div className="mt-3">
-                              <Card.Title>
-                                <Image
-                                  src={`/image/${it.productFileName}`}
-                                  thumbnail
-                                  width="20%"
-                                />
-                                &nbsp;{it.productTitle}
-                              </Card.Title>
-                              <Card.Text>
-                                금액 :{" "}
-                                <span style={{ color: "red" }}>
-                                  {Number(it.productPrice) *
-                                    Number(it.productcount)}
-                                </span>
-                                원(수량 : {it.productcount})
-                              </Card.Text>
-                              <Card.Text>사이즈 : {it.productSize}</Card.Text>
-                            </div>
-                          ))}
-                      </Card.Text>
+                      {orderProductArr &&
+                        orderProductArr.map((it, index) => (
+                          <div className="mt-3" key={index}>
+                            <Card.Title>
+                              <Image
+                                src={`/image/${it.productFileName}`}
+                                thumbnail
+                                width="20%"
+                              />
+                              &nbsp;{it.productTitle}
+                            </Card.Title>
+                            <Card.Text>
+                              금액 :{" "}
+                              <span style={{ color: "red" }}>
+                                {Number(it.productPrice) *
+                                  Number(it.productcount)}
+                              </span>
+                              원(수량 : {it.productcount})
+                            </Card.Text>
+                            <Card.Text>사이즈 : {it.productSize}</Card.Text>
+                          </div>
+                        ))}
                     </Card.Body>
                   </Card>
                 </blockquote>

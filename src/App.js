@@ -32,7 +32,7 @@ function App() {
 
   return (
     <>
-      <Container fluid="md" className="mt-3 bg">
+      <Container fluid="md" className="mt-3">
         <Navbar bg="light" data-bs-theme="light">
           <Container>
             <Navbar.Brand href="/" className='textBold'>Shoe Store(feat.React)</Navbar.Brand>
@@ -125,28 +125,26 @@ function App() {
           <Offcanvas.Body>
             {sessionData && sessionData.length > 0
               ? sessionData.map((it, index) => (
-                  <>
-                    <Card
-                      border="success"
-                      style={{ width: "20rem" }}
-                      key={index}
-                    >
-                      <Card.Header>{it.title}</Card.Header>
-                      <Card.Body>
-                        <Card.Text>
-                          <Nav.Link
-                            onClick={() => {
-                              handleClose(false);
-                              navigate(`/detail?seq=${it.seq}`);
-                            }}
-                          >
-                            <Image src={`/image/${it.fileName}`} width="60%" />
-                          </Nav.Link>
-                        </Card.Text>
-                      </Card.Body>
-                    </Card>
-                    <br />
-                  </>
+                <Card
+                  border="success"
+                  style={{ width: "20rem" }}
+                  key={index}
+                  className='mt-3'
+                >
+                  <Card.Header>{it.title}</Card.Header>
+                  <Card.Body>
+                    <Card.Text>
+                      <Nav.Link
+                        onClick={() => {
+                          handleClose(false);
+                          navigate(`/detail?seq=${it.seq}`);
+                        }}
+                      >
+                        <Image src={`/image/${it.fileName}`} width="60%" />
+                      </Nav.Link>
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
                 ))
               : null}
           </Offcanvas.Body>
