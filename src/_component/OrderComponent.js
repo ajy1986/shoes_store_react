@@ -77,7 +77,7 @@ const OrderComponent = () => {
   //포인트 이벤트
   const usePointFnc = () => {
     let uPoint = ordrInfo.usePoint;
-    let oPrice = ordrInfo.ordrPrice;
+    let oPrice = totalOrderPrice;
     let tPoint = 300000; //정보를 받아오지 못해 하드코딩
 
     if (uPoint > 0 && uPoint !== "") {
@@ -308,6 +308,9 @@ const OrderComponent = () => {
                         });
                         setIsAddrPost(true);
                       }}
+                      onBlur={()=>{
+                        setIsAddrPost(false);
+                      }}
                     />
                     <Form.Control.Feedback type="invalid">
                       주소를 입력 해 주세요.
@@ -373,7 +376,7 @@ const OrderComponent = () => {
                         size="sm"
                         onClick={() => {
                           let uPoint = ordrInfo.usePoint;
-                          let oPrice = ordrInfo.ordrPrice;
+                          let oPrice = totalOrderPrice;
                           let tPoint = 300000; //정보를 받아오지 못해 하드코딩
 
                           if (tPoint > oPrice) {
